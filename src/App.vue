@@ -9,8 +9,8 @@
   </ul>
 
   <form @submit.prevent="addCourse">
-    <input type="text" v-model.trim="newSubject">
-    <button type="submit">Add Course</button>
+    <input  style="color:green;padding:5px;" type="text" v-model.trim="newSubject">
+    <button style="color:green;padding:5px;" type="submit">Add Course</button>
   </form>
 
 </template>
