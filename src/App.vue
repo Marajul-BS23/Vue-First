@@ -1,26 +1,44 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <h1>Course of {{name}}</h1>
+  
+  <p>List of Course {{dataArray.length}}</p>
+
+  <ul >
+    <li v-for="(item,index) in dataArray" :key="index">{{item}}</li>
+  </ul>
+
+  <form @submit.prevent="addCourse">
+    <input type="text" v-model.trim="newSubject">
+    <button type="submit">Add Course</button>
+  </form>
+
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
 
+
+<script>
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  methods:{
+    addCourse(){
+      if(this.newSubject!=""){
+        this.dataArray.push(this.newSubject);
+       this.newSubject = "";
+      }
+
+    }
+  },
+  data()
+  {
+    return{
+      name: "Marajul",
+      newSubject:"Compiler Design",
+      dataArray: ["C++","Java","Algorithm","Data structure", "Lool"],
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
