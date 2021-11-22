@@ -1,44 +1,28 @@
+
+
 <template>
-
-  <h1>Course of {{name}}</h1>
+  <div class="p-grid">
+    <div class="p-col">
+      <h1 style="text-align:center;">Course of Marajul</h1>
+      <CardMain/>
+    </div>
+    <div class="p-col"></div>
+    <div class="P-col"></div>
+  </div>
   
-  <p>List of Course {{dataArray.length}}</p>
-
-  <ul >
-    <li v-for="(item,index) in dataArray" :key="index">{{item}}</li>
-  </ul>
-
-  <form @submit.prevent="addCourse">
-    <input  style="color:green;padding:5px;" type="text" v-model.trim="newSubject">
-    <button style="color:green;padding:5px;" type="submit">Add Course</button>
-  </form>
-
 </template>
 
 
 
 <script>
-export default {
-  methods:{
-    addCourse(){
-      if(this.newSubject!=""){
-        this.dataArray.push(this.newSubject);
-       this.newSubject = "";
-      }
 
-    }
+import CardMain from "./components/CardMain.vue";
+
+
+export default {
+  components:{
+    CardMain
   },
-  data()
-  {
-    return{
-      name: "Marajul",
-      newSubject:"Compiler Design",
-      dataArray: ["C++","Java","Algorithm","Data structure", "Lool"],
-    }
-  }
+
 }
 </script>
-
-<style>
-
-</style>
