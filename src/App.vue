@@ -1,28 +1,32 @@
-
-
 <template>
-  <div class="p-grid">
-    <div class="p-col">
-      <h1 style="text-align:center;">Course of Marajul</h1>
-      <CardMain/>
-    </div>
-    <div class="p-col"></div>
-    <div class="P-col"></div>
+  <div>
+    <NavBar></NavBar>
+    <router-view></router-view>
   </div>
-  
+
+  <!-- <div>
+    <div>{{ oktime }}</div>
+  </div> -->
 </template>
 
-
-
 <script>
-
-import CardMain from "./components/CardMain.vue";
-
-
+// import CardMain from "./components/CardMain.vue";
+import NavBar from "./components/NavBar.vue";
 export default {
-  components:{
-    CardMain
+  components: {
+    // CardMain,
+    NavBar,
   },
-
-}
+  computed: {},
+  data() {
+    return {
+      oktime: new Date().toLocaleTimeString(),
+    };
+  },
+  created() {
+    setInterval(() => {
+      this.oktime = new Date().toLocaleTimeString();
+    }, 1000);
+  },
+};
 </script>
