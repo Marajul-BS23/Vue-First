@@ -1,7 +1,12 @@
 <template>
+  <ConfirmDialog></ConfirmDialog>
   <div class="p-grid">
     <div class="p-col">
-      <Fieldset style="max-width: 375px; margin: 20px auto">
+      <Fieldset
+        style="max-width: 375px; margin: 20px auto"
+        :toggleable="true"
+        :collapsed="false"
+      >
         <template #legend> Course ({{ countCourse }}) </template>
         <ul>
           <li
@@ -17,6 +22,13 @@
               style="margin: 0; padding: 0; height: 27px; width: 27px"
               icon="pi pi-times"
             />
+
+            <Button
+              @click="openModal(index)"
+              class="p-button-rounded p-button-sm p-button-warning"
+              style="margin-left: 5px; padding: 0px; height: 27px; width: 27px"
+              icon="pi pi-pencil"
+            />
           </li>
         </ul>
 
@@ -26,8 +38,30 @@
             class="p-inputtext-sm"
             v-model.trim="newSubject"
           />
-
-          <Button class="p-button" label="Add Course" type="submit" />
+          <Dialog
+            header="Edit Course"
+            v-model:visible="displayModal"
+            :style="{ width: '400px' }"
+            :modal="true"
+          >
+            <form class="modalForm" @submit.prevent="editCourse">
+              <InputText
+                type="text"
+                class="p-inputtext-sm"
+                v-model.trim="editInput"
+              />
+              <Button
+                class="p-button p-button-sm"
+                label="Edit Course"
+                type="submit"
+              />
+            </form>
+          </Dialog>
+          <Button
+            class="p-button p-button-sm"
+            label="Add Course"
+            type="submit"
+          />
         </form>
       </Fieldset>
     </div>
@@ -37,9 +71,11 @@
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Fieldset from "primevue/fieldset";
+import Dialog from "primevue/dialog";
+import ConfirmDialog from "primevue/confirmdialog";
 
 export default {
-  components: { Button, InputText, Fieldset },
+  components: { Button, InputText, Fieldset, Dialog, ConfirmDialog },
 
   computed: {
     countCourse() {
@@ -60,16 +96,53 @@ export default {
       // after clicking the cross button
 
       // delete from data array
-      this.dataArray.splice(index, 1);
+      this.$confirm.require({
+        message: "Are you sure you want to proceed?",
+        header: "Confirmation",
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
+          this.dataArray.splice(index, 1);
+          this.$toast.add({
+            severity: "warn",
+            summary: "Delete Successful",
+            life: 3000,
+          });
+        },
+      });
+    },
+    editCourse() {
+      this.dataArray[this.currentIndex] = this.editInput;
+      this.displayModal = false;
+      this.$toast.add({
+        severity: "success",
+        summary: "Edit Succesfull",
+        life: 3000,
+      });
+    },
+    openModal(index) {
+      this.displayModal = true;
+      this.editInput = this.dataArray[index];
+      this.currentIndex = index;
     },
   },
 
   data() {
     return {
       name: "Marajul",
-      newSubject: "Compiler Design",
-      dataArray: ["C++", "Java", "Algorithm", "Data structure", "Lool"],
+      newSubject: "",
+      dataArray: ["C++", "Java", "Algorithm", "Data structure", "Math"],
+      displayModal: false,
+      editInput: "",
+      currentIndex: 0,
     };
   },
 };
 </script>
+
+<style>
+.modalForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

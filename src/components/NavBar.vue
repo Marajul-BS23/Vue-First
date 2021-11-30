@@ -15,7 +15,10 @@
       </div>
     </template>
     <template #item="{ item }">
-      <router-link :to="item.link" style="margin: auto 10px" :icon="item.icon"
+      <router-link
+        :to="item.link"
+        style="margin: auto 10px; text-decoration: none; color: black"
+        :icon="item.icon"
         >{{ item.label }}
       </router-link>
     </template>

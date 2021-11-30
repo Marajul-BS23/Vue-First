@@ -1,21 +1,22 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+    <Toast />
   </div>
-
-  <!-- <div>
-    <div>{{ oktime }}</div>
-  </div> -->
 </template>
 
 <script>
 // import CardMain from "./components/CardMain.vue";
 import NavBar from "./components/NavBar.vue";
+import Toast from "primevue/toast";
 export default {
   components: {
     // CardMain,
     NavBar,
+    Toast,
   },
   computed: {},
   data() {
