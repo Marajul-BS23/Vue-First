@@ -22,20 +22,60 @@
       />
     </li>
   </ul>
+  <Dialog
+    header="Edit Course"
+    v-model:visible="displayModal"
+    :style="{ width: '400px' }"
+    :modal="true"
+  >
+    <form class="modalForm" @submit.prevent="editCourseTemp">
+      <InputText type="text" class="p-inputtext-sm" v-model.trim="editInput" />
+      <Button class="p-button p-button-sm" label="Edit Course" type="submit" />
+    </form>
+  </Dialog>
 </template>
 
 <script>
 import Button from "primevue/button";
+import Dialog from "primevue/dialog";
+import InputText from "primevue/inputtext";
 export default {
   props: {
-    openModal: Function,
     deleteCourse: Function,
     dataArray: Array,
+    editCourse: Function,
   },
   components: {
     Button,
+    Dialog,
+    InputText,
+  },
+  data() {
+    return {
+      displayModal: false,
+      editInput: "",
+      currentIndex: 0,
+    };
+  },
+  methods: {
+    openModal(index) {
+      this.displayModal = true;
+      this.editInput = this.dataArray[index];
+      this.currentIndex = index;
+    },
+    editCourseTemp() {
+      this.editCourse(this.currentIndex, this.editInput);
+      this.displayModal = false;
+      this.editInput = "";
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+.modalForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

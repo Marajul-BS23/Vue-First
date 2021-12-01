@@ -1,10 +1,10 @@
-import CardMain from "./pages/CardMain";
+import Course from "./pages/Course";
 import Calender from "./pages/Calender";
 import Home from "./pages/Home";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-  { path: "/course", component: CardMain },
+  { path: "/course", component: Course },
   { path: "/calender", component: Calender },
   { path: "/", component: Home },
 ];

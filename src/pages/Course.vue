@@ -8,51 +8,27 @@
         :collapsed="false"
       >
         <template #legend> Course ({{ countCourse }}) </template>
+
         <CourseList
-          :openModal="openModal"
           :deleteCourse="deleteCourse"
           :dataArray="dataArray"
+          :editCourse="editCourse"
         />
-        <AddCourseForm :addCourse="addCourse" />
 
-        <Dialog
-          header="Edit Course"
-          v-model:visible="displayModal"
-          :style="{ width: '400px' }"
-          :modal="true"
-        >
-          <form class="modalForm" @submit.prevent="editCourse">
-            <InputText
-              type="text"
-              class="p-inputtext-sm"
-              v-model.trim="editInput"
-            />
-            <Button
-              class="p-button p-button-sm"
-              label="Edit Course"
-              type="submit"
-            />
-          </form>
-        </Dialog>
+        <AddCourseForm :addCourse="addCourse" />
       </Fieldset>
     </div>
   </div>
 </template>
 <script>
-import Button from "primevue/button";
-import InputText from "primevue/inputtext";
 import Fieldset from "primevue/fieldset";
-import Dialog from "primevue/dialog";
 import ConfirmDialog from "primevue/confirmdialog";
 import CourseList from "../components/CourseList";
 import AddCourseForm from "../components/AddCourseForm.vue";
 
 export default {
   components: {
-    Button,
-    InputText,
     Fieldset,
-    Dialog,
     ConfirmDialog,
     CourseList,
     AddCourseForm,
@@ -73,9 +49,7 @@ export default {
       }
     },
     deleteCourse(index) {
-      // after clicking the cross button
-
-      // delete from data array
+      // after clicking the cross button  delete from data array
       this.$confirm.require({
         message: "Are you sure you want to proceed?",
         header: "Confirmation",
@@ -90,38 +64,20 @@ export default {
         },
       });
     },
-    editCourse() {
-      this.dataArray[this.currentIndex] = this.editInput;
-      this.displayModal = false;
+    editCourse(currentIndex, currentText) {
+      this.dataArray[currentIndex] = currentText;
       this.$toast.add({
         severity: "success",
         summary: "Edit Succesfull",
         life: 3000,
       });
     },
-    openModal(index) {
-      this.displayModal = true;
-      this.editInput = this.dataArray[index];
-      this.currentIndex = index;
-    },
   },
 
   data() {
     return {
-      newSubject: "",
       dataArray: ["C++", "Java", "Algorithm", "Data structure", "Math"],
-      displayModal: false,
-      editInput: "",
-      currentIndex: 0,
     };
   },
 };
 </script>
-
-<style>
-.modalForm {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>
