@@ -1,9 +1,9 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+
+    <router-view></router-view>
+
     <Toast />
   </div>
 </template>

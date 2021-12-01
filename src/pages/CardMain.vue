@@ -8,61 +8,32 @@
         :collapsed="false"
       >
         <template #legend> Course ({{ countCourse }}) </template>
-        <ul>
-          <li
-            style="padding: 5px; font-size: 17px"
-            v-for="(item, index) in dataArray"
-            :key="index"
-          >
-            {{ item }}
+        <CourseList
+          :openModal="openModal"
+          :deleteCourse="deleteCourse"
+          :dataArray="dataArray"
+        />
+        <AddCourseForm :addCourse="addCourse" />
 
-            <Button
-              @click="deleteCourse(index)"
-              class="p-button-rounded p-button-sm p-button-danger"
-              style="margin: 0; padding: 0; height: 27px; width: 27px"
-              icon="pi pi-times"
+        <Dialog
+          header="Edit Course"
+          v-model:visible="displayModal"
+          :style="{ width: '400px' }"
+          :modal="true"
+        >
+          <form class="modalForm" @submit.prevent="editCourse">
+            <InputText
+              type="text"
+              class="p-inputtext-sm"
+              v-model.trim="editInput"
             />
-
             <Button
-              @click="openModal(index)"
-              class="p-button-rounded p-button-sm p-button-warning"
-              style="margin-left: 5px; padding: 0px; height: 27px; width: 27px"
-              icon="pi pi-pencil"
+              class="p-button p-button-sm"
+              label="Edit Course"
+              type="submit"
             />
-          </li>
-        </ul>
-
-        <form @submit.prevent="addCourse">
-          <InputText
-            type="text"
-            class="p-inputtext-sm"
-            v-model.trim="newSubject"
-          />
-          <Dialog
-            header="Edit Course"
-            v-model:visible="displayModal"
-            :style="{ width: '400px' }"
-            :modal="true"
-          >
-            <form class="modalForm" @submit.prevent="editCourse">
-              <InputText
-                type="text"
-                class="p-inputtext-sm"
-                v-model.trim="editInput"
-              />
-              <Button
-                class="p-button p-button-sm"
-                label="Edit Course"
-                type="submit"
-              />
-            </form>
-          </Dialog>
-          <Button
-            class="p-button p-button-sm"
-            label="Add Course"
-            type="submit"
-          />
-        </form>
+          </form>
+        </Dialog>
       </Fieldset>
     </div>
   </div>
@@ -73,9 +44,19 @@ import InputText from "primevue/inputtext";
 import Fieldset from "primevue/fieldset";
 import Dialog from "primevue/dialog";
 import ConfirmDialog from "primevue/confirmdialog";
+import CourseList from "../components/CourseList";
+import AddCourseForm from "../components/AddCourseForm.vue";
 
 export default {
-  components: { Button, InputText, Fieldset, Dialog, ConfirmDialog },
+  components: {
+    Button,
+    InputText,
+    Fieldset,
+    Dialog,
+    ConfirmDialog,
+    CourseList,
+    AddCourseForm,
+  },
 
   computed: {
     countCourse() {
@@ -84,12 +65,11 @@ export default {
   },
 
   methods: {
-    addCourse() {
+    addCourse(newValue) {
       //After Submitting the form
-      if (this.newSubject != "") {
+      if (newValue != "") {
         // Push The value to the array
-        this.dataArray.push(this.newSubject);
-        this.newSubject = "";
+        this.dataArray.push(newValue);
       }
     },
     deleteCourse(index) {
@@ -128,7 +108,6 @@ export default {
 
   data() {
     return {
-      name: "Marajul",
       newSubject: "",
       dataArray: ["C++", "Java", "Algorithm", "Data structure", "Math"],
       displayModal: false,

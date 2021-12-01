@@ -1,6 +1,6 @@
-import CardMain from "./components/CardMain";
-import Calender from "./components/Calender";
-import Home from "./components/Home";
+import CardMain from "./pages/CardMain";
+import Calender from "./pages/Calender";
+import Home from "./pages/Home";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
