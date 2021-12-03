@@ -2,7 +2,7 @@
   <ul>
     <li
       style="padding: 5px; font-size: 17px"
-      v-for="(item, index) in dataArray"
+      v-for="(item, index) in this.$store.getters.getData"
       :key="index"
     >
       {{ item }}
@@ -40,11 +40,6 @@ import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
 export default {
-  props: {
-    deleteCourse: Function,
-    dataArray: Array,
-    editCourse: Function,
-  },
   components: {
     Button,
     Dialog,
@@ -60,13 +55,28 @@ export default {
   methods: {
     openModal(index) {
       this.displayModal = true;
-      this.editInput = this.dataArray[index];
+      this.editInput = this.$store.getters.getData[index];
       this.currentIndex = index;
     },
     editCourseTemp() {
-      this.editCourse(this.currentIndex, this.editInput);
+      this.$store.commit("editCourse", [this.currentIndex, this.editInput]);
       this.displayModal = false;
       this.editInput = "";
+    },
+    deleteCourse(index) {
+      this.$confirm.require({
+        message: "Are you sure you want to proceed?",
+        header: "Confirmation",
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
+          this.$store.commit("deleteCourse", index);
+          this.$toast.add({
+            severity: "warn",
+            summary: "Delete Successful",
+            life: 3000,
+          });
+        },
+      });
     },
   },
 };

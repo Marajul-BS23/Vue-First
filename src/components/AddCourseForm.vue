@@ -23,13 +23,12 @@ export default {
       newSubjectValue: "",
     };
   },
-  props: {
-    addCourse: Function,
-  },
   methods: {
     addCoursefromProp() {
-      this.addCourse(this.newSubjectValue);
-      this.newSubjectValue = "";
+      if (this.newSubjectValue != "") {
+        this.$store.commit("addCourse", this.newSubjectValue);
+        this.newSubjectValue = "";
+      }
     },
   },
 };

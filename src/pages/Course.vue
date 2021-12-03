@@ -9,13 +9,9 @@
       >
         <template #legend> Course ({{ countCourse }}) </template>
 
-        <CourseList
-          :deleteCourse="deleteCourse"
-          :dataArray="dataArray"
-          :editCourse="editCourse"
-        />
+        <CourseList />
 
-        <AddCourseForm :addCourse="addCourse" />
+        <AddCourseForm />
       </Fieldset>
     </div>
   </div>
@@ -36,48 +32,8 @@ export default {
 
   computed: {
     countCourse() {
-      return this.dataArray.length;
+      return this.$store.state.dataArray.length;
     },
-  },
-
-  methods: {
-    addCourse(newValue) {
-      //After Submitting the form
-      if (newValue != "") {
-        // Push The value to the array
-        this.dataArray.push(newValue);
-      }
-    },
-    deleteCourse(index) {
-      // after clicking the cross button  delete from data array
-      this.$confirm.require({
-        message: "Are you sure you want to proceed?",
-        header: "Confirmation",
-        icon: "pi pi-exclamation-triangle",
-        accept: () => {
-          this.dataArray.splice(index, 1);
-          this.$toast.add({
-            severity: "warn",
-            summary: "Delete Successful",
-            life: 3000,
-          });
-        },
-      });
-    },
-    editCourse(currentIndex, currentText) {
-      this.dataArray[currentIndex] = currentText;
-      this.$toast.add({
-        severity: "success",
-        summary: "Edit Succesfull",
-        life: 3000,
-      });
-    },
-  },
-
-  data() {
-    return {
-      dataArray: ["C++", "Java", "Algorithm", "Data structure", "Math"],
-    };
   },
 };
 </script>
